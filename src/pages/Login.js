@@ -5,9 +5,12 @@ import {
   HStack,
   Image,
   Input,
-  Link as ChakraLink,
   Text,
   VStack,
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
 } from '@chakra-ui/react';
 //import Logo from '../img/logobs.png';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
@@ -18,7 +21,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const { login, addIsLogged,setLoggedID,setLoggedUser,loggedUser ,setUserStorage} = useContext(AuthContext);
+  const { login, addIsLogged,setLoggedID,setUserStorage,faildLogin} = useContext(AuthContext);
 
   const onClick = async () => {
     const loginResult = await login(username, password);
@@ -36,6 +39,13 @@ const Login = () => {
   if (localStorage.getItem('loggedIn')) {
     return <Navigate to="/" />;
   }
+  const errorLogin = () => {
+    return(<Alert status='error'>
+    <AlertIcon />
+    <AlertTitle>Incorrect Username or password</AlertTitle>
+    <AlertDescription></AlertDescription>
+  </Alert>)
+  }
 
   return (
     <HStack spacing="0">
@@ -50,6 +60,7 @@ const Login = () => {
           <Text fontWeight="bold" color="green.400" fontSize="70px">
             Welcome back
           </Text>
+          {faildLogin ? (errorLogin) :(<></>)}
           <Input
             value={username}
             onChange={e => setUsername(e.target.value)}

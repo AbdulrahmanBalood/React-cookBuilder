@@ -23,6 +23,8 @@ import {
   Td,
   TableCaption,
   TableContainer,
+  UnorderedList,
+  ListItem
 } from '@chakra-ui/react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
@@ -94,41 +96,34 @@ export const Profile = () => {
         />
       ) : (
         <>
-          <Text fontSize="6xl" marginBottom={'5%'}>Welcome {loggedUser}</Text>
-          <TableContainer width={'100%'}>
-            <Table variant="striped" colorScheme="green" >
-              <Thead>
-                <Tr>
-                  <Th>Recipe</Th>
-                  <Th></Th>
-                </Tr>
-              </Thead>
+          <Text fontSize="6xl">Welcome {loggedUser}</Text>
+          <UnorderedList>
+
               {favoriteRecipes.map((recipe, index) => {
                 let recipeID = recipe.recipeID;
                 return (
-                    <Tr>
-                         <Td>
+                   
+                        <>
                   <Text key={index}>
-                  
+                  <ListItem>
                     <Link to={`/recipe/${recipe.recipeID}`}>
                       {recipe.recipeName}
                     </Link>
-
+                    </ListItem>
                   </Text>
-                  </Td>
-                  <Td>
+         
                   <Button
                       onClick={() => RemoveOnClick(recipeID)}
                       colorScheme={'red'}
                     >
                       Delete
                     </Button>
-                    </Td>
-                  </Tr>
+                   
+                  
+                  </>
                 );
               })}
-            </Table>
-          </TableContainer>
+              </UnorderedList>
         </>
       )}
     </Flex>

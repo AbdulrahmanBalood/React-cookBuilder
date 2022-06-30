@@ -21,7 +21,10 @@ import {
   Divider ,
   Button,
   Spinner,
-  SimpleGrid
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
 } from '@chakra-ui/react';
 import RecipeContext from '../context/RecipeContext';
 import { useNavigate,Link  } from "react-router-dom";
@@ -37,6 +40,7 @@ export const RecipePage = () => {
   const [dataRecived,setDataRecived] = useState(true);
   const [diet,setDiet] = useState('')
   const [instructions,setInstructions] = useState('')
+  const [added,setAdded] = useState(false)
   let newUrl = ''
   console.log(favoriteRecipesIDs);
   useEffect(() => {
@@ -79,10 +83,17 @@ const favoriteOnClick = () => {
     })
     const data = await request.json();
     console.log(data);
+    setAdded(true)
   }
   addFav()
 
 }
+const addedAlert = ()=> {
+  return(<Alert status='success'>
+  <AlertIcon />
+  <AlertTitle>Recipe added to list</AlertTitle>
+  <AlertDescription></AlertDescription>
+</Alert>)}
   
   return (
     <Flex justifyContent={'center'} alignItems='center' >
@@ -93,6 +104,7 @@ const favoriteOnClick = () => {
             color="green.500"
             size="xl"
           />):( <Container maxWidth={"3xl"}>
+            {added? (addedAlert()):(<></>)}
           <Text fontSize="4xl"> {recipe.title} </Text>
           <Button marginY='5px' width={'5rem'} onClick={favoriteOnClick} colorScheme='green'>+ favorite</Button>
           <Stack  direction={['column', 'row']} spacing='10px'>
