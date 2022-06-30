@@ -30,7 +30,9 @@ export const AuthProvider = ({ children }) => {
     }
     
   };
-
+  const setUserStorage = ()=> {
+    setLoggedUser(localStorage.getItem('username'))
+  }
   useEffect(()=> {
     const setID = async()=> {
       const request = await fetch('/api/v1/auth/userinfo/' + loggedUser);
@@ -82,7 +84,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ login, register, isLogged, addIsLogged, removeIsLogged, logout,loggedUser,setLoggedUser,userID,setUserID ,setLoggedID}}
+      value={{ login, register, isLogged, addIsLogged, removeIsLogged, logout,loggedUser,setLoggedUser,userID,setUserID ,setLoggedID,setUserStorage}}
     >
       {children}
     </AuthContext.Provider>

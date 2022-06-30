@@ -18,19 +18,20 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const { login, addIsLogged,setLoggedID } = useContext(AuthContext);
+  const { login, addIsLogged,setLoggedID,setLoggedUser,loggedUser ,setUserStorage} = useContext(AuthContext);
 
   const onClick = async () => {
     const loginResult = await login(username, password);
     if (loginResult) {
+
       addIsLogged();
       
-      localStorage.setItem('username',username)
+     localStorage.setItem('username',username)
+     setUserStorage()
       setLoggedID(true)
-      // navigate('/');
+       navigate('/');
     }
   };
-
 
   if (localStorage.getItem('loggedIn')) {
     return <Navigate to="/" />;

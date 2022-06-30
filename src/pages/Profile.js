@@ -29,15 +29,18 @@ import AuthContext from '../context/AuthContext';
 import RecipeContext from '../context/RecipeContext';
 export const Profile = () => {
   const [loading, setLoading] = useState(true);
-  const [reload, setReload] = useState(false);
   const { favoriteRecipes, setFavoriteRecipes, favoriteRecipesIDs, setFavId } =
     useContext(RecipeContext);
-  const Navigate = useNavigate();
+  const { loggedUser, userID, setUserID } =
+  useContext(AuthContext);
 
   useEffect(() => {
     const getData = async () => {
+      console.log(loggedUser);
       const request = await fetch('/api/v1/auth/userinfo/' + loggedUser);
+      console.log(request);
       const data = await request.json();
+
       setLoading(false);
       setFavoriteRecipes(data.favoriteRecipes);
       setUserID(data.id);
@@ -68,6 +71,7 @@ export const Profile = () => {
   useEffect(() => {
     const getData = async () => {
       const request = await fetch('/api/v1/auth/userinfo/' + loggedUser);
+      console.log(loggedUser);
       const data = await request.json();
       setLoading(false);
       setFavoriteRecipes(data.favoriteRecipes);
@@ -77,8 +81,7 @@ export const Profile = () => {
     getData();
     setLoading(false);
   }, [loading]);
-  const { login, addIsLogged, loggedUser, userID, setUserID } =
-    useContext(AuthContext);
+
   return (
     <Flex justifyContent={'center'} alignItems="center" height={'100vh'}>
       {loading ? (
@@ -90,9 +93,9 @@ export const Profile = () => {
           size="xl"
         />
       ) : (
-        <Container>
-          <Text fontSize="6xl">Welcome {loggedUser}</Text>
-          <TableContainer>
+        <>
+          <Text fontSize="6xl" marginBottom={'5%'}>Welcome {loggedUser}</Text>
+          <TableContainer width={'100%'}>
             <Table variant="striped" colorScheme="green" >
               <Thead>
                 <Tr>
@@ -126,7 +129,7 @@ export const Profile = () => {
               })}
             </Table>
           </TableContainer>
-        </Container>
+        </>
       )}
     </Flex>
   );

@@ -20,12 +20,13 @@ import {
   Badge,
   Divider ,
   Button,
-  Spinner
+  Spinner,
+  SimpleGrid
 } from '@chakra-ui/react';
 import RecipeContext from '../context/RecipeContext';
 import { useNavigate,Link  } from "react-router-dom";
 import AuthContext from '../context/AuthContext';
-
+import he from 'he'
 export const RecipePage = () => {
   let id = useParams();
   const Navigate = useNavigate()
@@ -61,7 +62,7 @@ export const RecipePage = () => {
   if(instructions !== '' ){
     return (<>
     <Text fontWeight={'bold'} fontSize='3xl'>Instructions:</Text>
-     {instructions} </>);
+     {he.decode(instructions)} </>);
   }else{
     return <Text fontWeight={'bold'} fontSize='3xl'>No Instructions avalible</Text>
   }
@@ -92,7 +93,8 @@ const favoriteOnClick = () => {
             color="green.500"
             size="xl"
           />):( <Container maxWidth={"3xl"}>
-          <Text fontSize="5xl"> {recipe.title} <Button onClick={favoriteOnClick} marginLeft={"20%"} colorScheme='green'>add to favorite</Button></Text>
+          <Text fontSize="4xl"> {recipe.title} </Text>
+          <Button marginY='5px' width={'5rem'} onClick={favoriteOnClick} colorScheme='green'>+ favorite</Button>
           <Stack  direction={['column', 'row']} spacing='10px'>
     
             {diet.map((diet,index)=> {
@@ -114,10 +116,8 @@ const favoriteOnClick = () => {
          
            <Image marginLeft={'5%'} borderRadius={'10px'} marginY='10px' src={recipe.image}></Image>
          
-          {/* <Text>preparationMinutes: {recipe.preparationMinutes}</Text>
-        <Text>cookingMinutes: {recipe.cookingMinutes}</Text> */}
         <Text fontWeight={'bold'} fontSize='3xl' >Summary</Text>
-          <Text>{recipe.summary}
+          <Text>{he.decode(recipe.summary)}
           </Text>
           <Divider orientation='horizontal' />
           
@@ -126,7 +126,6 @@ const favoriteOnClick = () => {
           {instructionsData()
           }
           </Text>
-          {/* <Text>analyzedInstructions:{recipe.analyzedInstructions}</Text> */}
           <Divider orientation='horizontal' />
           <Text fontWeight={'bold'} fontSize='3xl'>Ingredients:</Text>
           <OrderedList>
@@ -138,9 +137,6 @@ const favoriteOnClick = () => {
                     <strong>{ingredient.name} </strong>: {ingredient.measures.metric.amount}  {ingredient.measures.metric.unitLong}
                     </Text>
                    </ListItem>
-    
-                  
-                
               );
             })}
           </OrderedList>
